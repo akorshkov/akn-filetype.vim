@@ -7,11 +7,11 @@ Minimalistic filetype plugin for personal notes.
 * With vim/pathogen:
 
 ```bash
-git clone https://github.com/akorshkov/vim-akn.git ~/.vim/bundle/vim-akn
+git clone https://github.com/akorshkov/akn-filetype.vim.git ~/.vim/bundle/akn-filetype.vim
 ```
 
 * With nvim Packer:
 
 ```lua
-use { "akorshkov/vim-akn" }
+use { "akorshkov/akn-filetype.vim" }
 ```
