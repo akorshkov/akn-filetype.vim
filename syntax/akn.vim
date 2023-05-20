@@ -30,6 +30,9 @@ syntax match AknAnchorBorder "|\|>|\||>" contained
 syntax match AknLink "|\w\+>|" contains=AknAnchorBorder
 syntax match AknAnchor "|>\w\+|" contains=AknAnchorBorder
 
+" syntax of urls
+syntax match AknUrl "\<https\?://\S*"
+
 " include other languages
 syntax include @Rust syntax/rust.vim
 syntax region AknInclRust matchgroup=AknAnchorBorder start="^>>>rust" end="^<<<$" keepend contains=@Rust
@@ -48,6 +51,7 @@ hi! def link AknHeaderBorder Normal
 hi! def link AknLink Directory
 hi! def link AknAnchor LineNr
 hi! def link AknAnchorBorder LineNr
+hi! def link AknUrl Directory
 
 if hlexists("DiagnosticError")
   " highliting for nvim (there are more standard hl-groups in nvim than in vim)
