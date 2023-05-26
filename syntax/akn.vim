@@ -20,10 +20,17 @@ syntax region AknArrowNote start="<-$" end="$"
 syntax region AknArrowNote1 start="<! " end="$"
 syntax region AknArrowNote1 start="<!$" end="$"
 
+" syntax of bash snippets
+syntax region AknBashLine start="^\$ " end="$" contains=AknArrowNote,AknArrowNote1
+
 " syntax of list indicators
 syntax match AknListIndicatorDash "^ *- "
 syntax match AknListIndicatorStar "^ *\* "
 syntax match AknListIndicatorNumber "^ *[0-9.]\+\. "
+
+" syntax of terms table
+syntax match AknTermColon ": " contained
+syntax match AknTerm "^ *\w\+ *: " contains=AknTermColon
 
 " syntax of links
 syntax match AknAnchorBorder "|\|>|\||>" contained
@@ -52,6 +59,7 @@ hi! def link AknLink Directory
 hi! def link AknAnchor LineNr
 hi! def link AknAnchorBorder LineNr
 hi! def link AknUrl Directory
+hi! def link AknBashLine ModeMsg
 
 if hlexists("DiagnosticError")
   " highliting for nvim (there are more standard hl-groups in nvim than in vim)
@@ -72,3 +80,5 @@ endif
 hi! def link AknListIndicatorDash Identifier
 hi! def link AknListIndicatorStar Identifier
 hi! def link AknListIndicatorNumber Identifier
+hi! def link AknTerm PreProc
+hi! def link AknTermColon Normal
