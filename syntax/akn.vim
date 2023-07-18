@@ -9,15 +9,19 @@ syntax match AknHeader6 "^====== \+.* \+======$" contains=AknHeaderBorder
 
 syntax match AknHeaderBorder "=\{1,6}" contained
 
+" syntax of note marks: smthn like (!!!) in note lines
+syntax match AknNoteMark3 "(!!!)" contained
+syntax match AknNoteMark "(!)" contained
+
 " syntax of note lines
-syntax region AknNoteLine start="^> " end="$"
-syntax region AknNote1Line start="^>> " end="$"
-syntax region AknNote2Line start="^>! " end="$"
+syntax region AknNoteLine start="^> " end="$" contains=AknNoteMark,AknNoteMark3
+syntax region AknNote1Line start="^>> " end="$" contains=AknNoteMark,AknNoteMark3
+syntax region AknNote2Line start="^>! " end="$" contains=AknNoteMark,AknNoteMark3
 
 " syntax of arrow notes
-syntax region AknArrowNote start="<- " end="$"
+syntax region AknArrowNote start="<- " end="$" contains=AknNoteMark,AknNoteMark3
 syntax region AknArrowNote start="<-$" end="$"
-syntax region AknArrowNote1 start="<! " end="$"
+syntax region AknArrowNote1 start="<! " end="$" contains=AknNoteMark,AknNoteMark3
 syntax region AknArrowNote1 start="<!$" end="$"
 
 " syntax of bash snippets
@@ -31,6 +35,9 @@ syntax match AknListIndicatorNumber "^ *[0-9.]\+\. "
 " syntax of terms table
 syntax match AknTermColon ": " contained
 syntax match AknTerm "^ *\w\+ *: " contains=AknTermColon
+syntax match AknTermColon1 " >:" contained
+syntax match AknTerm "^.\+ >: " contains=AknTermColon1
+syntax match AknTerm "^.\+ >:$" contains=AknTermColon1
 
 " syntax of links
 syntax match AknAnchorBorder "|\|>|\||>" contained
@@ -60,6 +67,8 @@ hi! def link AknAnchor LineNr
 hi! def link AknAnchorBorder LineNr
 hi! def link AknUrl Directory
 hi! def link AknBashLine ModeMsg
+hi! def link AknNoteMark Question
+hi! def link AknNoteMark3 Special
 
 if hlexists("DiagnosticError")
   " highliting for nvim (there are more standard hl-groups in nvim than in vim)
