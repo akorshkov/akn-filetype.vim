@@ -7,21 +7,31 @@ syntax match AknHeader4 "^==== \+.* \+====$" contains=AknHeaderBorder
 syntax match AknHeader5 "^===== \+.* \+=====$" contains=AknHeaderBorder
 syntax match AknHeader6 "^====== \+.* \+======$" contains=AknHeaderBorder
 
+" leave '=' signes in the header normal color
 syntax match AknHeaderBorder "=\{1,6}" contained
 
 " syntax of note marks: smthn like (!!!) in note lines
 syntax match AknNoteMark3 "(!!!)" contained
 syntax match AknNoteMark "(!)" contained
+syntax match AknQstnMark3 "(???)" contained
+syntax match AknQstnMark "(?)" contained
+syntax match AknQstnInRedMark3 "(???)" contained
+syntax match AknQstnInRedMark "(?)" contained
 
 " syntax of note lines
-syntax region AknNoteLine start="^> " end="$" contains=AknNoteMark,AknNoteMark3
-syntax region AknNote1Line start="^>> " end="$" contains=AknNoteMark,AknNoteMark3
-syntax region AknNote2Line start="^>! " end="$" contains=AknNoteMark,AknNoteMark3
+syntax region AknNoteLine start="^> " end="$"
+	\ contains=AknNoteMark,AknNoteMark3,AknQstnMark,AknQstnMark3
+syntax region AknNote1Line start="^>> " end="$"
+	\ contains=AknNoteMark,AknNoteMark3,AknQstnMark,AknQstnMark3
+syntax region AknNote2Line start="^>! " end="$"
+	\ contains=AknNoteMark,AknNoteMark3,AknQstnInRedMark,AknQstnInRedMark3
 
 " syntax of arrow notes
-syntax region AknArrowNote start="<- " end="$" contains=AknNoteMark,AknNoteMark3
+syntax region AknArrowNote start="<- " end="$"
+	\ contains=AknNoteMark,AknNoteMark3,AknQstnMark,AknQstnMark3
 syntax region AknArrowNote start="<-$" end="$"
-syntax region AknArrowNote1 start="<! " end="$" contains=AknNoteMark,AknNoteMark3
+syntax region AknArrowNote1 start="<! " end="$"
+	\ contains=AknNoteMark,AknNoteMark3,AknQstnInRedMark,AknQstnInRedMark3
 syntax region AknArrowNote1 start="<!$" end="$"
 
 " syntax of bash snippets
@@ -31,6 +41,22 @@ syntax region AknBashLine start="^\$ " end="$" contains=AknArrowNote,AknArrowNot
 syntax match AknListIndicatorDash "^ *- "
 syntax match AknListIndicatorStar "^ *\* "
 syntax match AknListIndicatorNumber "^ *[0-9.]\+\. "
+
+" 'end of section' lines, same color as used in headers
+" this section has to be placed after list indicators because
+" AknHeader1 conflicts with AknListIndicatorDash
+syntax match AknHeader1 "^= ==*$"
+syntax match AknHeader1 "^- --*$"
+syntax match AknHeader2 "^== ==*$"
+syntax match AknHeader2 "^-- --*$"
+syntax match AknHeader3 "^=== ==*$"
+syntax match AknHeader3 "^--- --*$"
+syntax match AknHeader4 "^==== ==*$"
+syntax match AknHeader4 "^---- --*$"
+syntax match AknHeader5 "^===== ==*$"
+syntax match AknHeader5 "^----- --*$"
+syntax match AknHeader6 "^====== ==*$"
+syntax match AknHeader6 "^------ --*$"
 
 " syntax of terms table
 syntax match AknTermColon ": " contained
@@ -56,9 +82,9 @@ syntax region AknInclRust matchgroup=AknAnchorBorder start="^>>>rust" end="^<<<$
 
 hi! def link AknHeader1 Title
 hi! def link AknHeader2 Special
-hi! def link AknHeader3 Constant
+hi! def link AknHeader3 String
 hi! def link AknHeader4 Directory
-hi! def link AknHeader5 String
+hi! def link AknHeader5 Constant
 hi! def link AknHeader6 Comment
 hi! def link AknHeaderBorder Normal
 " highlight link AknHeaderBorder ErrorMsg
@@ -69,6 +95,9 @@ hi! def link AknUrl Directory
 hi! def link AknBashLine ModeMsg
 hi! def link AknNoteMark Question
 hi! def link AknNoteMark3 Special
+hi! def link AknQstnMark Special
+hi! def link AknQstnInRedMark3 Normal
+hi! def link AknQstnInRedMark Special
 
 if hlexists("DiagnosticError")
   " highliting for nvim (there are more standard hl-groups in nvim than in vim)
@@ -77,6 +106,7 @@ if hlexists("DiagnosticError")
   hi! def link AknNote2Line DiagnosticError
   hi! def link AknArrowNote Comment
   hi! def link AknArrowNote1 DiagnosticError
+  hi! def link AknQstnMark3 DiagnosticError
 else
   " highliting for vim
   hi! def link AknNoteLine String
@@ -84,10 +114,11 @@ else
   hi! def link AknNote2Line ErrorMsg
   hi! def link AknArrowNote Comment
   hi! def link AknArrowNote1 ErrorMsg
+  hi! def link AknQstnMark3 ErrorMsg
 endif
 
-hi! def link AknListIndicatorDash Identifier
-hi! def link AknListIndicatorStar Identifier
-hi! def link AknListIndicatorNumber Identifier
-hi! def link AknTerm PreProc
+hi! def link AknListIndicatorDash Function
+hi! def link AknListIndicatorStar Function
+hi! def link AknListIndicatorNumber Function
+hi! def link AknTerm Identifier
 hi! def link AknTermColon Normal
